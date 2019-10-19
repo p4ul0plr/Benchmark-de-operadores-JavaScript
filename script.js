@@ -104,7 +104,6 @@ let tab = {
 const valores = [
     [
         'Quantidade de operações por segundo',
-        'Tempo de execução do bloco (segundos)',
         'O número de vezes que um teste foi executado',
         'Quantidade de execuções amostradas',
         'O desvio padrão da amostra',
@@ -258,10 +257,19 @@ lines.push(n)
 let columns = ['n']
 
 for (let i = 0; i <= 11; i++) {
+    columns.push(suite[String(i)].name)
+
+    var vect = []
+
+    for (let j = 0; j < suite[String(i)].stats.sample.length; j++) {
+        vect.push(String(suite[String(i)].stats.sample[j].toPrecision(5)).replace('.', ','))
+    }
+
+    lines.push(vect)
+
     valores.push(
         [
             suite[String(i)].hz.toFixed(4).replace('.', ','),
-            (1 / suite[String(i)].hz).toPrecision(5).replace('.', ','),
             suite[String(i)].count,
             suite[String(i)].stats.sample.length,
             suite[String(i)].stats.deviation.toPrecision(5).replace('.', ','),
@@ -296,15 +304,6 @@ for (let i = 0; i <= 11; i++) {
             ).toPrecision(5).replace('.', ',')
         ]
     )
-
-    columns.push(suite[String(i)].name)
-    var vect = []
-
-    for (let j = 0; j < suite[String(i)].stats.sample.length; j++) {
-        vect.push(String(suite[String(i)].stats.sample[j].toPrecision(5)).replace('.', ','))
-    }
-
-    lines.push(vect)
 }    
 
 const newColumns = columns.map(function(item, index) {
